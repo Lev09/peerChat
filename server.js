@@ -9,4 +9,4 @@ app.configure(function() {
 
 var port = 9000;
 app.listen(port);
-console.log("server is started on http://localhost:" + port);
+console.log("Server started on http://localhost:" + port);
