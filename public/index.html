@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="chat">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="lib/jquery/dist/jquery.js"></script>
+		<script src="lib/angular/angular.js"></script>
+		<script src="lib/angular-route/angular-route.js"></script>
+		<script src="lib/peerjs/peer.js"></script>
+		<script src="lib/ionic/release/js/ionic.js"></script>
+		<link rel="styleSheet" href="lib/ionic/release/css/ionic.css"></link>
+		
+		<script src="js/app.js"></script>
+		<script src="js/controller/chatController.js"></script>
+	</head>
+	<body class="padding-vertical">
+		<header class="bar bar-header bar-positive">
+			<a href="#/chat" class="button button-clear icon ion-home"></a>
+			<button class="button button-clear icon-right ion-ios7-person-outline">Account </button>
+		</header>
+  	<br>
+  	
+		<div ng-view></div>
+		
+	</body>
+</html>

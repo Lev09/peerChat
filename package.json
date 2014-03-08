@@ -1,0 +1,10 @@
+{
+  "name": "peerChat",
+  "version": "0.0.1",
+  "description": "Chat based on peerjs and angularjs tecnologes.",
+	"private": true,
+  "dependencies": {
+    "express": "3.0.0",
+    "mongoose": "*"
+  }
+}

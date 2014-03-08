@@ -1,0 +1,20 @@
+{
+  "name": "peerChat",
+  "version": "0.0.1",
+  "description": "Chat based on peerjs and angularjs tecnologes.",
+  "private": true,
+    
+  "dependencies": {
+  	"angular": "*",
+  	"angular-route": "*",
+  	"peerjs": "*",
+  	"jquery": "*",
+  	"ionic": "*"
+  },
+  
+  "authors": [
+    "Stepan Karslyan <stepan.karslyan@gmail.com>",
+    "Levon Hakopyan <levon.hakopyan@gmail.com>"
+  ]
+  
+}

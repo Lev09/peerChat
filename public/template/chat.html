@@ -1,0 +1,49 @@
+<content padding="true" class="padding-top">
+	<div class="row">
+		
+		<div class="col col-75">	
+			<div class="card">
+				<div class="item">
+					Users online
+				</div>
+				<div class="padding">
+					user 1
+					user 2
+				</div>	
+			</div>
+		</div>
+		<div class="col">					
+			<div class="card">
+				<div class="item item-divider">
+					Users in room 1
+				</div>
+			
+				<div class="list">
+					<div ng-repeat="user in room" class="item item-button-right">
+						{{user.nik}}
+						<button class="button button-positive">
+							<i class="icon ion-ios7-videocam-outline"></i>
+						</button>
+					</div>
+				</div>
+			</div>	
+		</div>
+	
+	</div>
+	<div id="messages" class="row" style="bottom:44px; position:fixed; width:100%; height:150px; overflow:auto; border-top: solid 1px gray;">
+		<div class="item-divider" style="bgColor:#d4d4d4;">Meesages</div>
+		<ul class="padding">
+			<li ng-repeat="message in messages">
+				<p><i style="color:#A9A9C5;">{{message.date }} </i>
+					<i style="color:red;"> {{message.autor}} </i>: {{message.text}}
+				</p>
+			</li>
+		</ul>
+	</div>
+</content>
+<footer class="bar bar-footer bar-positive">
+	<label class="item-input-wrapper">
+		<input ng-model="msg" type="text" placeholder="Your messsage here"></input>
+	</label>
+	<button ng-click="sendMsg(msg)" class="button button-positive">send</button>
+</footer>
