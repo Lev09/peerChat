@@ -11,6 +11,11 @@ angular.module('chat').factory('peerService', function() {
 	    
 	    interface.key = key;
 	    interface.peer = this.peers[key];
+
+    	interface.peer.on('open',function(id) {
+		  	interface.online(id);
+    	});
+    
 	    this.initConnectionEvent(interface);
 	  },
 	  
@@ -25,11 +30,8 @@ angular.module('chat').factory('peerService', function() {
 	  },
 	  
 	  connect: function(interface, id) {
-	    var service = this;
-	    var connection;
-	    if(!connection.open){	    
-	    	connection = interface.peer.connect(id);
-	    }
+	    var service = this;	  	    
+    	connection = interface.peer.connect(id);
 
 			connection.on('open', function() {
 				service.initInterface(interface, connection);

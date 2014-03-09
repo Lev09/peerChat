@@ -7,24 +7,28 @@
 					Users online
 				</div>
 				<div class="padding">
-					user 1
-					user 2
+					<div class="row">
+						<div ng-repeat="caller in activeCalls" class="col">
+							{{caller.name}}
+						</div>
+					</div>
 				</div>	
 			</div>
 		</div>
 		<div class="col">					
-			<div class="card">
+			<div class="card" style="height:358px; overflow:auto;">
 				<div class="item item-divider">
 					Users in room 1
 				</div>
 			
 				<div class="list">
-					<div ng-repeat="user in room" class="item item-button-right">
-						{{user.nik}}
-						<button class="button button-positive">
-							<i class="icon ion-ios7-videocam-outline"></i>
-						</button>
-					</div>
+					<label ng-repeat="friend in onlineFriends" class="item item-radio">
+						<input type="checkbox" ng-model="recipient[friend.id]" ng-click="connectWhenChecked(friend.id)">
+						<div class="item-content">
+							{{friend.name}}
+						</div>
+						<i class="radio-icon ion-checkmark"></i>
+					</label>
 				</div>
 			</div>	
 		</div>
@@ -35,15 +39,19 @@
 		<ul class="padding">
 			<li ng-repeat="message in messages">
 				<p><i style="color:#A9A9C5;">{{message.date }} </i>
-					<i style="color:red;"> {{message.autor}} </i>: {{message.text}}
+					<i style="color:red;"> {{message.author}} </i>: {{message.content}}
 				</p>
 			</li>
 		</ul>
 	</div>
+	<div class="row">
+		<peer-connection key="oftz4qdmchjxxbt9" interface="interface"><peer-connection>
+	</div>
 </content>
+
 <footer class="bar bar-footer bar-positive">
 	<label class="item-input-wrapper">
-		<input ng-model="msg" type="text" placeholder="Your messsage here"></input>
+		<input ng-model="message" type="text" placeholder="Your messsage here"></input>
 	</label>
-	<button ng-click="sendMsg(msg)" class="button button-positive">send</button>
+	<button ng-click="send(message)" class="button button-positive">send</button>
 </footer>

@@ -1,43 +1,112 @@
-angular.module('chat').controller('chatController', ['$scope', function($scope) {
+angular.module('chat').controller('chatController', ['$scope', 'chatService', function($scope, chatService) {
 	
 	var controller = {
+
 		messages: [],
+		recipient: {},
+		
+		interface: {
+
+			reciveData: function(data){
+				controller.reciveData(data);
+			},
+			
+			onError: function(error) {
+				controller.onError(error);
+			},
+			
+			online: function(id) {
+				controller.makeMeOnline({
+					id: id,
+					name: "Levon"
+				});
+			}
+			
+		},
 		
 		init: function() {
-			$scope.user = "Levon";
+			var controller = this;
+			$scope.user = {name: "Levon"};
 			$scope.messages = this.messages;
-			$scope.room = [{nik: 'lev'},{nik: 'ZXC'},{nik: 'Zorg'}];
+			$scope.recipient = this.recipient;
+			$scope.onlineFriends = [];
 			
-			$scope.sendMsg = function(msg) {
-				controller.sendMsg($scope.user, msg);
-				$scope.msg = undefined;
+			$scope.interface = this.interface;
+
+			$scope.send = function(message) {
+				controller.sendData($scope.user, message);
+				$scope.message = "";
 			};
-		},
-	
-		getModifiedDate: function() {
-			var date = new Date();
-			var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-			var day = days[date.getDay()];
-			var months = ["January","February","March","April","May","June","July","August","September","October","November","December"
-			];
-			var month = months[date.getMonth()];
-			var year = date.getFullYear();
-			var hour = date.getHours();
-			var minute = date.getMinutes();
-		
-			return day + "/" + month + "/" + year + "  " + hour + ":" + minute;
-		},
-	
-		sendMsg: function(user, msg) {
-			if(msg) {
-				this.messages.push({autor: user, text: msg, date: this.getModifiedDate()});
 			
-				$("#messages").animate({
-				    scrollTop: $("#messages").height()
-				}, 100);
-		  }
-		}
+			$scope.connectWhenChecked = function(id) {
+				controller.connectWhenChecked(id)
+			};
 		
+			$scope.logout = function() {
+				controller.destroyPeer();
+			};
+
+		},
+		
+		makeMeOnline: function(user) {
+			var controller = this;
+			
+			chatService.register({
+				user: user,
+		
+				onSuccess: function(data) {
+					$scope.onlineFriends = data;
+					$scope.$apply();
+				},
+		
+				onError: function(error) {
+					controller.onError(error);
+				}
+		
+			});
+		},
+		
+		connectWhenChecked: function(id) {
+			if (!this.recipient[id]) {
+				this.interface.connectToUser(id);
+			}
+			else {
+				this.disconnect(id);
+			}
+		},
+		
+		getModifiedDate: function() {	
+			return chatService.getModifiedDate();
+		},
+		
+		sendData: function(user, data) {
+			if(data) {
+				this.messages.push({author: user.name, content: data, date: this.getModifiedDate()});
+				data.authorId = user.id;
+				this.interface.sendData(data);						
+			}
+			
+			$("#messages").animate({
+				scrollTop: $("#messages").height()
+			}, 100);
+		},
+		
+		reciveData: function(data) {
+			controller.messages.push(data);
+		},
+		
+		onError: function(error) {
+			alert(error.message);
+		},
+		
+		disconnect: function() {
+			this.interface.disconnectConnection();
+		},
+		
+		destroyPeer: function() {
+			this.interface.destroyPeer();
+		}
+	
 	};
 	
 	controller.init();

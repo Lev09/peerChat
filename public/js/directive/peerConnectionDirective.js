@@ -1,4 +1,4 @@
-angular.module('chat').directive('peerConnection', 'peerService', function(peerService) {
+angular.module('chat').directive('peerConnection', ['peerService', function(peerService) {
 
 	return {
 		restrict: 'E',
@@ -14,7 +14,7 @@ angular.module('chat').directive('peerConnection', 'peerService', function(peerS
 			var directive = {
 				
 				init: function() {
-					initInterface(scope.interface);
+					this.initInterface(scope.interface);
 				  peerService.init(scope.interface, attr.key);
 				},
 				
@@ -25,13 +25,9 @@ angular.module('chat').directive('peerConnection', 'peerService', function(peerS
 					};
 					
 					interface.connectToUser = function(id) {
-						service.connect(interface, id);
+						peerService.connect(interface, id);
 					};
 					
-				},
-				
-				connect: function(id) {
-					peerService.connect(scope.interface, id);
 				}
 				
 			};
@@ -41,4 +37,4 @@ angular.module('chat').directive('peerConnection', 'peerService', function(peerS
 		
 	};
 	
-});
+}]);
