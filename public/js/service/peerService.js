@@ -32,10 +32,11 @@ angular.module('chat').factory('peerService', function() {
 	  connect: function(interface, id) {
 	    var service = this;	  	    
     	connection = interface.peer.connect(id);
+			service.initInterface(interface, connection);
+			service.initConnection(interface, connection);
 
 			connection.on('open', function() {
-				service.initInterface(interface, connection);
-				service.initConnection(interface, connection);
+				console.log("connection is open");
 			});
 	  
 	  },
@@ -65,7 +66,11 @@ angular.module('chat').factory('peerService', function() {
 			});
 
 			connection.on('data', function(data) {
-				service.notifyDataReceived(interface, data);
+				service.notifyDataReceived(interface,
+					{
+						author: connection.peer,
+						content: data
+					});
 			});					
 
 		},

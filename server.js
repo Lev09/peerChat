@@ -9,7 +9,7 @@ app.configure(function() {
 
 var exist = function(array, object) {	
 	for(var i = 0; i < array.length; i++) {
-		if(array[i].name == object.name) {
+		if(array[i].id == object.id) {
 			array[i] = object;
 			return true;
 			break;
@@ -19,7 +19,7 @@ var exist = function(array, object) {
 };
 
 var onlineUsers = [
-	{name: 'Lilu', id: 'id123456789'}
+	{name: 'Lilu', id: 'id123456789'}, {name: 'Obama', id: 'id1234567890'}
 ];
 
 app.post('/online', function(req, res) {

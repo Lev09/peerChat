@@ -1,7 +1,8 @@
 angular.module('chat').controller('chatController', ['$scope', 'chatService', function($scope, chatService) {
 	
 	var controller = {
-
+		
+		onlineFriends: [],
 		messages: [],
 		recipient: {},
 		
@@ -18,7 +19,7 @@ angular.module('chat').controller('chatController', ['$scope', 'chatService', fu
 			online: function(id) {
 				controller.makeMeOnline({
 					id: id,
-					name: "Levon"
+					name: $scope.user.name
 				});
 			}
 			
@@ -29,12 +30,12 @@ angular.module('chat').controller('chatController', ['$scope', 'chatService', fu
 			$scope.user = {name: "Levon"};
 			$scope.messages = this.messages;
 			$scope.recipient = this.recipient;
-			$scope.onlineFriends = [];
+			$scope.onlineFriends = this.onlineFriends;
 			
 			$scope.interface = this.interface;
 
 			$scope.send = function(message) {
-				controller.sendData($scope.user, message);
+				controller.sendData(message, $scope.user);
 				$scope.message = "";
 			};
 			
@@ -75,15 +76,10 @@ angular.module('chat').controller('chatController', ['$scope', 'chatService', fu
 			}
 		},
 		
-		getModifiedDate: function() {	
-			return chatService.getModifiedDate();
-		},
-		
-		sendData: function(user, data) {
+		sendData: function(data, user) {
 			if(data) {
-				this.messages.push({author: user.name, content: data, date: this.getModifiedDate()});
-				data.authorId = user.id;
-				this.interface.sendData(data);						
+				this.messages.push(chatService.modifyData(data, user));
+				this.interface.sendData(data);
 			}
 			
 			$("#messages").animate({
@@ -92,7 +88,7 @@ angular.module('chat').controller('chatController', ['$scope', 'chatService', fu
 		},
 		
 		reciveData: function(data) {
-			controller.messages.push(data);
+			controller.messages.push(chatService.modifyData(data, $scope.onlineFriends));
 		},
 		
 		onError: function(error) {

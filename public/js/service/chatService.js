@@ -36,6 +36,28 @@ angular.module('chat').factory('chatService', function() {
 			var minute = date.getMinutes();
 		
 			return day + "/" + month + "/" + year + "  " + hour + ":" + minute;
+		},
+		
+		modifyData: function(data, user) {
+			if(user.constructor === Object) {
+				return {
+					author: user.name, 
+					content: data,
+					date: this.getModifiedDate()
+				};
+			}
+			else {
+				
+				for(var i = 0; i < user.length; i++) {
+					if(user[i].id === data.author) {
+						data.author = user[i].name;
+						data.date = this.getModifiedDate();
+						return data;
+					}
+				}
+				data.date = this.getModifiedDate();
+				return data;
+			}
 		}
 	
 	};
