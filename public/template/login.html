@@ -8,13 +8,13 @@
 						Please Log in or <a href="#/register">Register</a>
 					</h3>
 					<label class="item item-input">
-						<input type="text" placeholder="First Name">
+						<input ng-model="user.login" type="text" placeholder="Login">
 					</label>
 					<label class="item item-input">
-						<input type="text" placeholder="Last Name">
+						<input ng-model="user.password" type="text" placeholder="Password">
 					</label>
 
-					<button class="button button-block button-positive">Sign In</button>
+					<button ng-click="login(user)" class="button button-block button-positive">Sign In</button>
 				</div>
 			</div>
 		</div>

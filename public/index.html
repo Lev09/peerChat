@@ -12,12 +12,14 @@
 		<script src="js/app.js"></script>
 		<script src="js/service/chatService.js"></script>
 		<script src="js/service/peerService.js"></script>
+		<script src="js/controller/mainController.js"></script>
 		<script src="js/controller/chatController.js"></script>
+		<script src="js/controller/authenticationController.js"></script>
 		<script src="js/directive/peerConnectionDirective.js"></script>
 	</head>
-	<body class="padding-vertical">
+	<body ng-controller="mainController" class="padding-vertical">
 		<header class="bar bar-header bar-positive">
-			<a href="#/chat" class="button button-clear icon ion-home"></a>
+			<a href="/" class="button button-clear icon ion-home"></a>
 			<button class="button button-clear icon-right ion-ios7-person-outline">Account </button>
 		</header>
   	<br>

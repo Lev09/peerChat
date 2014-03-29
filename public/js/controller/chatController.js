@@ -1,4 +1,4 @@
-angular.module('chat').controller('chatController', ['$scope', 'chatService', function($scope, chatService) {
+angular.module('chat').controller('chatController', function($scope, chatService, $location) {
 	
 	var controller = {
 		
@@ -8,7 +8,7 @@ angular.module('chat').controller('chatController', ['$scope', 'chatService', fu
 		
 		interface: {
 
-			reciveData: function(data){
+			reciveData: function(data) {
 				controller.reciveData(data);
 			},
 			
@@ -17,17 +17,16 @@ angular.module('chat').controller('chatController', ['$scope', 'chatService', fu
 			},
 			
 			online: function(id) {
-				controller.makeMeOnline({
-					id: id,
-					name: $scope.user.name
-				});
+				$scope.user.id = id;
 			}
 			
 		},
 		
 		init: function() {
 			var controller = this;
-			$scope.user = {name: "Levon"};
+			
+			this.checkAuthontication();
+			$scope.user = $scope.$parent.user;
 			$scope.messages = this.messages;
 			$scope.recipient = this.recipient;
 			$scope.onlineFriends = this.onlineFriends;
@@ -46,7 +45,17 @@ angular.module('chat').controller('chatController', ['$scope', 'chatService', fu
 			$scope.logout = function() {
 				controller.destroyPeer();
 			};
-
+		},
+		
+		checkAuthontication: function() {
+		
+			if($scope.user.id) {
+				this.makeMeOnline($scope.user);
+			}
+			else {
+				$location.path('/login');
+			}
+		
 		},
 		
 		makeMeOnline: function(user) {
@@ -56,6 +65,7 @@ angular.module('chat').controller('chatController', ['$scope', 'chatService', fu
 				user: user,
 		
 				onSuccess: function(data) {
+					data.pop(data[user.id]);
 					$scope.onlineFriends = data;
 					$scope.$apply();
 				},
@@ -107,4 +117,4 @@ angular.module('chat').controller('chatController', ['$scope', 'chatService', fu
 	
 	controller.init();
 	
-}]);
+});
