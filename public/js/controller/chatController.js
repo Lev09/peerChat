@@ -2,9 +2,9 @@ angular.module('chat').controller('chatController', function($scope, chatService
 	
 	var controller = {
 		
-		onlineFriends: [],
+		onlineUsers: [],
 		messages: [],
-		recipient: {},
+		receiver: {},
 		
 		interface: {
 
@@ -22,32 +22,8 @@ angular.module('chat').controller('chatController', function($scope, chatService
 			
 		},
 		
-		init: function() {
-			var controller = this;
-			
-			this.checkAuthontication();
-			$scope.user = $scope.$parent.user;
-			$scope.messages = this.messages;
-			$scope.recipient = this.recipient;
-			$scope.onlineFriends = this.onlineFriends;
-			
-			$scope.interface = this.interface;
-
-			$scope.send = function(message) {
-				controller.sendData(message, $scope.user);
-				$scope.message = "";
-			};
-			
-			$scope.connectWhenChecked = function(id) {
-				controller.connectWhenChecked(id)
-			};
 		
-			$scope.logout = function() {
-				controller.destroyPeer();
-			};
-		},
-		
-		checkAuthontication: function() {
+		checkAuthentication: function() {
 		
 			if($scope.user.id) {
 				this.makeMeOnline($scope.user);
@@ -60,25 +36,26 @@ angular.module('chat').controller('chatController', function($scope, chatService
 		
 		makeMeOnline: function(user) {
 			var controller = this;
-			
-			chatService.register({
-				user: user,
+			setInterval(
+				function() {
+					chatService.register({
+						user: user,
 		
-				onSuccess: function(data) {
-					data.pop(data[user.id]);
-					$scope.onlineFriends = data;
-					$scope.$apply();
-				},
+						onSuccess: function(data) {
+							$scope.onlineUsers = data;
+							$scope.$apply();
+						},
 		
-				onError: function(error) {
-					controller.onError(error);
-				}
+						onError: function(error) {
+							controller.onError(error);
+						}
 		
-			});
+					})
+				}, 10000);
 		},
 		
 		connectWhenChecked: function(id) {
-			if (!this.recipient[id]) {
+			if (!this.receiver[id]) {
 				this.interface.connectToUser(id);
 			}
 			else {
@@ -98,7 +75,7 @@ angular.module('chat').controller('chatController', function($scope, chatService
 		},
 		
 		reciveData: function(data) {
-			controller.messages.push(chatService.modifyData(data, $scope.onlineFriends));
+			controller.messages.push(chatService.modifyData(data, $scope.onlineUsers));
 		},
 		
 		onError: function(error) {
@@ -111,10 +88,36 @@ angular.module('chat').controller('chatController', function($scope, chatService
 		
 		destroyPeer: function() {
 			this.interface.destroyPeer();
-		}
+		},
 	
+		init: function() {
+			var controller = this;
+			
+			this.checkAuthentication();
+			$scope.user = $scope.$parent.user;
+			$scope.messages = this.messages;
+			$scope.receiver = this.receiver;
+			$scope.onlineUsers = this.onlineUsers;
+			
+			$scope.interface = this.interface;
+
+			$scope.send = function(message) {
+				controller.sendData(message, $scope.user);
+				$scope.message = "";
+			};
+			
+			$scope.connectWhenChecked = function(id) {
+				controller.connectWhenChecked(id);
+			};
+		
+			$scope.logout = function() {
+				controller.destroyPeer();
+			};
+		}
+		
 	};
 	
 	controller.init();
 	
 });
+

@@ -1,4 +1,4 @@
-angular.module('chat').controller('authenticationController', function($scope, $location) {
+angular.module('chat').controller('authenticationController', ['$scope', '$location', 'authenticationService', function($scope, $location, authenticationService) {
 	var controller = {
 		init: function() {
 			var conrtoller = this;
@@ -13,31 +13,27 @@ angular.module('chat').controller('authenticationController', function($scope, $
 		
 		switchPageIfLogedIn: function(user) {
 			if(user.name) {
-				this.changeLocationUrl(user.name);
+				this.changeLocationUrl("/");
 			}
 		},
 		
 		login: function(auth) {
 			var conrtoller = this;
 			if(auth.login != "" && auth.password != "") {
-				
-				$.ajax({
-					method: 'GET',
-					url: '/auth',
-					data: {
-						user: auth
-					},
-					success: function(data) {
-						controller.parent.user.name = data;
+				authenticationService.login({
+					user: auth,
+					
+					onSuccess: function(userName) {
+						controller.parent.user.name = userName;
 						controller.changeLocationUrl('/');
 						$scope.$apply();
 					},
 		
-					error: function(error) {
-						alert(error);
+					onError: function(error) {
+						alert(JSON.stringify(error));
 					}
 					
-				});
+				});	
 			}
 		},
 		
@@ -49,4 +45,4 @@ angular.module('chat').controller('authenticationController', function($scope, $
 		
 	};
 	controller.init();
-});
+}]);

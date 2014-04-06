@@ -21,15 +21,23 @@ var exist = function(array, object) {
 var onlineUsers = [];
 
 app.get('/auth', function(req, res) {
+	console.log(req.query.user);
 	res.send(req.query.user.login);
 });
 
 app.post('/online', function(req, res) {
 	var user = req.body.user;
-	if(!exist(onlineUsers, user)) {
+	if(exist(onlineUsers, user)) {
+		for(var i = 0; i < onlineUsers.length; i++) {
+			if(onlineUsers[i] == user) {
+				res.send(onlineUsers);
+			}
+		}
+	}
+	else {
+		res.send(onlineUsers);
 		onlineUsers.push(user);
 	}
-	res.send(onlineUsers);
 	console.log(onlineUsers);
 });
 

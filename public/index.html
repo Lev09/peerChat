@@ -12,6 +12,7 @@
 		<script src="js/app.js"></script>
 		<script src="js/service/chatService.js"></script>
 		<script src="js/service/peerService.js"></script>
+		<script src="js/service/authenticationService.js"></script>
 		<script src="js/controller/mainController.js"></script>
 		<script src="js/controller/chatController.js"></script>
 		<script src="js/controller/authenticationController.js"></script>
@@ -20,7 +21,7 @@
 	<body ng-controller="mainController" class="padding-vertical">
 		<header class="bar bar-header bar-positive">
 			<a href="/" class="button button-clear icon ion-home"></a>
-			<button class="button button-clear icon-right ion-ios7-person-outline">Account </button>
+			<button class="button button-clear icon-right ion-ios7-person-outline">{{user.name}} </button>
 		</header>
   	<br>
   	

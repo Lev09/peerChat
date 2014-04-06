@@ -22,8 +22,8 @@
 				</div>
 			
 				<div class="list">
-					<label ng-repeat="friend in onlineFriends" class="item item-radio">
-						<input type="checkbox" ng-model="recipient[friend.id]" ng-click="connectWhenChecked(friend.id)">
+					<label ng-repeat="friend in onlineUsers" class="item item-radio">
+						<input type="checkbox" ng-model="receiver[friend.id]" ng-click="connectWhenChecked(friend.id)">
 						<div class="item-content">
 							{{friend.name}}
 						</div>

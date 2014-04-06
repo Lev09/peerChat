@@ -1,18 +1,22 @@
-angular.module('chat').factory('chatService', function() {
+angular.module('chat').factory('authenticationService', function() {
 	return {
 	
-		login: function(user) {
+		login: function(config) {
 			$.ajax({
 				method: 'GET',
-				url: '/user' + user,
+				url: '/auth',
+				data: {
+					user: config.user
+				},
 			
-				success: function(user) {
-					changeLocationUrl(user.login);
+				success: function(data) {
+					config.onSuccess(data);
 				},
 	
 				error: function(error) {
-					alert(error);
+					config.onError(error);
 				}
+				
 			});
 		}
 		
